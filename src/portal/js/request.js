@@ -1,6 +1,6 @@
 var bao = (function() {
  
-    var baseUrl = "http://bao.co.tz:64633/v0/KeyService/GetKey/BNH.Hotspot.VoucherPassword/"
+    var baseUrl = "https://bao.co.tz/api/KeyService/GetKey/BNH.Hotspot.VoucherPassword/"
 
     return {
         encrypt: function(dto, callback) {
