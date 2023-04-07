@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+    <title>Login - bao broadband</title>
+  
+    $(if refresh-timeout)
+    <meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+    $(endif)
+ 
+    <meta http-equiv="Content-Type" content="text/html;  charset=utf-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+
+    <script src="js/maxheight.js" type="text/javascript"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/cufon-yui.js" type="text/javascript"></script>
+    <script src="js/cufon-replace.js" type="text/javascript"></script>
+    <script src="js/Kozuka_Gothic_Pro_OpenType_300.font.js" type="text/javascript"></script>
+    <script src="js/Kozuka_Gothic_Pro_OpenType_500.font.js" type="text/javascript"></script>
+    <script src="js/aes.js"></script>
+    <script src="js/md5.js"></script>
+    <script src="js/request.js"></script>
+
+    <link href="css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+    
+    $(if advert-pending == 'yes')
+
+      var popup = '';
+      
+      function focusAdvert() {
+        if (window.focus) 
+          popup.focus();
+      }
+
+      function openAdvert() {
+        popup = open('$(link-advert)', 'hotspot_advert', '');
+        setTimeout("focusAdvert()", 1000);
+      }
+
+    $(endif)
+
+      function openLogout() {
+          if (window.name != 'hotspot_status') 
+          return true;
+
+            open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+            window.close();
+            return false;
+      }
+    
+      function readablizeBytes(bytes) {
+          var s = ['bytes', 'kb', 'MB', 'GB', 'TB', 'PB'];
+          var e = Math.floor(Math.log(bytes)/Math.log(1024));
+          
+          return (bytes/Math.pow(1024, Math.floor(e))).toFixed(2)+" "+s[e];
+      }
+
+      this.getVoucherDetails = function(cipher) {
+              var baseUrl = "http://bao.co.tz:51581/v0/Voucher/GetVoucherDetails"
+              var xhttp = new XMLHttpRequest();
+      
+              xhttp.open("POST", baseUrl, true);
+              xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+              xhttp.send(JSON.stringify({ CipherText: cipher }));
+      
+              xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var response = JSON.parse(this.responseText);
+                        
+                        if(true == response.IsSuccess){
+                         
+                          var downloadSpeed = response.Result.DownloadSpeed/1024 + 'Mbps';
+                          var uploadSpeed = response.Result.UploadSpeed/1024 + 'Mbps';
+
+                          $("#voucherPlan").text(response.Result.ServicePlan);
+                          $("#voucherSpeed").text(downloadSpeed + '/' + uploadSpeed);
+
+                          if(null == response.Result.CustomerName || '' == response.Result.CustomerName) {
+                            $("#welcomeMessage").text("We welcome you back!");
+                          }
+                          else{
+                            $("#welcomeMessage").html("Welcome back, <b>" + response.Result.CustomerName + "!</b>");
+                          }
+                        }
+                    }
+            };
+        }
+
+        $('document').ready(function() {
+
+            var voucher = '$(username)';
+            var routerIp = '$(server-address)';
+
+            routerIp = routerIp.substring(0, routerIp.indexOf(':'));
+
+            var voucherDto = {
+                    RouterIpAddress: routerIp, 
+                    Login: voucher
+            };
+
+            bao.encrypt(voucherDto, getVoucherDetails);
+        });
+
+    </script>
+
+ </head>
+
+ <body bottommargin="0" topmargin="0" leftmargin="0" rightmargin="0">
+
+   <div id="header">
+        <nav class="navbar navbar-inverse" style="border-radius:0">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">bao broadband</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="login.html">Hotspot Login</a></li>
+            <li class="active"><a href="status.html">Status</a></li>
+          </ul>
+        </div>
+      </nav>
+   </div>
+
+    $(if advert-pending == 'yes')
+      onLoad="openAdvert()"
+    $(endif)
+ 
+    <div class="container">
+         <form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+
+             $(if login-by-mac != 'yes')
+             <br><div class="alert alert-success"><span id="welcomeMessage">We welcome you back!</span></div><br>
+             $(endif)
+
+             $(if session-timeout == '1s')
+             <br><div class="alert alert-warning"><b>Sorry, Your time is over</b></div><br>
+             $(endif)
+
+             $(if limit-bytes-out == '1')
+             <br><div class="alert alert-warning"><b>Sorry, Quota is depleted</b></div><br>
+             $(endif)
+
+              <br>
+              <h4><b>Voucher Plan: </b><span id="voucherPlan"></span></h4>
+              <h4><b>Speed down/up: </b><span id="voucherSpeed"></span></h4>
+
+              <h4><b>Remaining time: </b>$(session-timeout)$(if session-timeout == '')Unlimited$(endif)</h4>
+
+              $(if remain-bytes-in != '')
+                <h4>
+                  <b>Remaining data:</b> $(remain-bytes-in)
+               </h4>
+              $(endif)
+
+              <h4><b>Bytes down/up:</b> $(bytes-out-nice) / $(bytes-in-nice)</h4>
+                   
+              <h4><b>Session time:</b>$(uptime)</h4>
+                          
+              $(if login-by-mac != 'yes')
+                  <br>
+                  <button type="submit" name="submit" value="Logout" class="btn btn-danger" style="float:right">
+                    <i class="fa fa-sign-out"></i>&nbsp; Logout
+                  </button>
+                  <br>
+              $(endif)
+
+          </form>
+    </div>
+
+ </body>
+
+</html>

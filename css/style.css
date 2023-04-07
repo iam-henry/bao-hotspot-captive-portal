@@ -1,0 +1,30 @@
+body { 
+  color: #707073; 
+  font-family: verdana; 
+}
+
+.login-form-b{
+  margin:10px auto;
+  padding:20px;
+  box-shadow: 1px 1px 10px #ccc ;
+}
+
+.puchaseVoucher {
+  color:rgb(109, 40, 140);
+  font-weight: bold;
+  font-size: 18;
+  font-family: verdana;
+  text-decoration: underline;
+}
+
+.btn-green {
+  background-color: rgb(159, 207, 101);
+  color: white;
+  font-weight: bold;
+}
+
+.contact {
+  color: rgb(109, 40, 140);
+  text-shadow: 1px 1px 1px #ccc;
+  font-size: 1.5em;
+}
