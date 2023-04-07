@@ -1,0 +1,18 @@
+/node_modules
+
+#ignore the index.md file
+index.md
+
+#ignore all json files
+.json
+
+#ignore the image
+*.jpg
+*.jpeg
+
+
+# .v4p backup files
+*~.xml
+
+# Dynamic plugins .dll
+bin/
