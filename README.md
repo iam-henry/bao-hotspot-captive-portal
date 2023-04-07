@@ -6,4 +6,4 @@ Simply copy the files on the location is your router. And remeber to edit the fi
 
 #Error Reporting
 If there is something wrong with it. You can send me email.
-srestaswrnm@gmail.com
+support@baobroadband.co.tz
