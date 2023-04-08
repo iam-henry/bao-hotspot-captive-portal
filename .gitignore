@@ -1,4 +1,5 @@
-/node_modules
+/**/node_modules
+src/encryption/public-key-cryptography-in-js/node_modules/
 
 #ignore the index.md file
 index.md
