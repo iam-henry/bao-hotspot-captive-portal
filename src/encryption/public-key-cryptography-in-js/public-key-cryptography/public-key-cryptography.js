@@ -67,7 +67,7 @@ function davidEncrypting(){
                     console.log(JSON.stringify(body));
 
                 });
-        });
+    });
 
     return '';
 
