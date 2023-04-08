@@ -7,18 +7,15 @@ nacl.util = require('tweetnacl-util');
 //generating the key pairs
 // const david = nacl.box.keyPair();
 // const viktoria = nacl.box.keyPair();
-
 // console.log(nacl.util.encodeBase64(david.publicKey), nacl.util.encodeBase64(david.secretKey));
 // console.log(nacl.util.encodeBase64(viktoria.publicKey), nacl.util.encodeBase64(viktoria.secretKey));
-
-// const router_publicKey = 'pMq1jrJ84k12Q3orWY5KfovmYlnDSUEQ/3HFRFGuXGQ=';
-const router_key = 'b4446feaf944492dab9ebe69efe41a92';
-const router_id = '996e83d7844145cfbc7e3f1ca2832fa2';
-
 // const router_secretKey = 'jJZcxh5D/+nX86cFguUYNK2W3M/JLTzkpCgwD8Oi1Zk=';
 // const portal_publicKey = 'AD6Imf19oyhsP3GLnOORPLbdy4t3VMidBEvRko0SyzE=';
-
 // const portal_secretKey = 'aHijiLBvI21TtkvlaLgZ/8x7rnOfAkp2IOLG/Vo1em8=';
+// const router_publicKey = 'pMq1jrJ84k12Q3orWY5KfovmYlnDSUEQ/3HFRFGuXGQ=';
+
+const router_key = 'b4446feaf944492dab9ebe69efe41a92';
+const router_id = '996e83d7844145cfbc7e3f1ca2832fa2';
 
 function davidEncrypting(){
     const dto = { key: router_key};
@@ -72,11 +69,11 @@ function davidEncrypting(){
                 });
         });
 
+    return '';
 
-
-    //messagereturn to be sent to Viktoria
-    const message_in_transit = '';// {cipher_text, one_time_code};
 /*
+    //messagereturn to be sent to Viktoria
+    const message_in_transit = {cipher_text, one_time_code};
     const dto = { key: router_key};
     const session = JSON.stringify(dto);
 
