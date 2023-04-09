@@ -14,6 +14,9 @@
   <script src="js/aes.js"></script>
   <script src="js/md5.js"></script>
   <script src="js/request.js"></script>
+  <script type="module" src="js/nacl.min.js"></script>
+  <script type="module" src="js/nacl-util.min.js"></script>
+  <script type="module" src="js/session.js"></script>
 
   <link href="css/layout.css" rel="stylesheet" type="text/css" />
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -31,8 +34,14 @@ $(if chap-id)
 </form>
 
 
+
 <script type="text/javascript">
 
+    //***********************************************************************************************
+    //
+    // doLogin
+    //
+    //************************************************************************************************
     function doLogin() {
       document.sendin.username.value = document.login.username.value;
 
