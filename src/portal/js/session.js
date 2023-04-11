@@ -27,7 +27,6 @@ var session = (function() {
 
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    //var password = this.responseText.replace(/\"/g, '');
                     
                     console.log(JSON.stringify('response: ' + this.responseText));
                     const one_time_code = nacl.randomBytes(24);
