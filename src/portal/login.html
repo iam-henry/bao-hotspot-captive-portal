@@ -43,50 +43,10 @@ $(if chap-id)
     //************************************************************************************************
     function doLogin() {
 
-    /*
-      document.sendin.username.value = document.login.username.value;
-
-      var voucher = document.login.username.value;
-      var routerIp = '$(server-address)';
-      var clientMac = '$(mac)';
-      var clientIp = '$(ip)';
-
       //
-      // remove the port number
+      // iniitiate hotspot session
       //
-      routerIp = routerIp.substring(0, routerIp.indexOf(':'));
-
-      var voucherDto = { 
-                  Login: voucher,
-                  RouterId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                  RouterIpAddress: routerIp,
-                  ClientMacAddress: clientMac,
-                  ClientIpAddress: clientIp
-                };
-
-      this.validateLogin = function(cipher) {
-            var baseUrl = "https://bao.co.tz/api/Voucher/GetPassword"
-            var xhttp = new XMLHttpRequest();
-    
-            xhttp.open("POST", baseUrl, true);
-            xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-            xhttp.send(JSON.stringify({ CipherText: cipher }));
-    
-            xhttp.onreadystatechange = function() {
-                  if (this.readyState == 4 && this.status == 200) {
-                      var password = this.responseText.replace(/\"/g, '');
-                      
-                      document.sendin.password.value = hexMD5('$(chap-id)' + password + '$(chap-challenge)');
-                      document.sendin.submit();
-                  }
-          };
-      }
-
-      //bao.encrypt(voucherDto, validateLogin);
-      */
-
       session.start();
-
       return false;
     }
 

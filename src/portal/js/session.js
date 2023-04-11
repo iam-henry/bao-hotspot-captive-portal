@@ -41,13 +41,7 @@ var session = (function() {
                         clientIP: clientIp
                     };
                 
-                    //let utf8decoder = new TextDecoder();
                     const encoder = new TextEncoder();
-
-                    console.log('response #2: ' + encoder.encode(JSON.stringify(voucherDto)));
-                    console.log('response pub #3: ' + Uint8Array.from(atob(router.result.pub), c => c.charCodeAt(0)));
-                    console.log('response pki #4: ' + Uint8Array.from(atob(router.result.pki), c => c.charCodeAt(0)));
-
 
                     // Get the cipher text
                     const cipher_text = nacl.box(
@@ -56,22 +50,10 @@ var session = (function() {
                         Uint8Array.from(atob(router.result.pub), c => c.charCodeAt(0)),
                         Uint8Array.from(atob(router.result.pki), c => c.charCodeAt(0))
                     );
-                
-                    console.log('response #4: ' + cipher_text);
-
-                    console.log('response #4: ' + one_time_code);
-
-                    //var u8 = new Uint8Array([65, 66, 67, 68]);
-                    var decoder = new TextDecoder('utf8');
-                    //var b64encoded = ;
-
-                    var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(one_time_code)));
 
                     const envelope = JSON.stringify({ CipherText:  btoa(String.fromCharCode.apply(null, new Uint8Array(cipher_text))),
                                                         Code: btoa(String.fromCharCode.apply(null, new Uint8Array(one_time_code))),
                                                         Key: router_key });
-
-                    console.log('response #4: ' + envelope);
 
                     var baseUrl = "http://localhost:8080/api/Voucher/SaveSession"
                     var xhttp = new XMLHttpRequest();
