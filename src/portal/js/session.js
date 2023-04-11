@@ -14,21 +14,24 @@ var session = (function() {
             var clientMac = '$(mac)';
             var clientIp = '$(ip)';
 
+            routerIp = routerIp.substring(0, routerIp.indexOf(':'));
+
             const dto = { key: router_key};
             const session = JSON.stringify(dto);
 
-            request.post({
-                url: `http://devhotspotapi.bao.co.tz/api/Voucher/StartSession`,
-                method: 'POST',
-                body: session,
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8',
-                    'Content-Length': session.length
-                }}, 
-                function (error, response, body){
-                    console.log(JSON.stringify(body));
+            var baseUrl = "http://localhost:8080/api/Voucher/StartSession"
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", baseUrl, true);
+            xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+            xhttp.send(session);
+
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    //var password = this.responseText.replace(/\"/g, '');
+                    
+                    console.log(JSON.stringify('response: ' + this.responseText));
                     const one_time_code = nacl.randomBytes(24);
-                    const router = JSON.parse(body);
+                    const router = JSON.parse(this.responseText);
 
                     var voucherDto = { 
                         login: voucher,
@@ -38,32 +41,54 @@ var session = (function() {
                         clientIP: clientIp
                     };
                 
+                    //let utf8decoder = new TextDecoder();
+                    const encoder = new TextEncoder();
+
+                    console.log('response #2: ' + encoder.encode(JSON.stringify(voucherDto)));
+                    console.log('response pub #3: ' + Uint8Array.from(atob(router.result.pub), c => c.charCodeAt(0)));
+                    console.log('response pki #4: ' + Uint8Array.from(atob(router.result.pki), c => c.charCodeAt(0)));
+
+
                     // Get the cipher text
                     const cipher_text = nacl.box(
-                        nacl.util.decodeUTF8(JSON.stringify(voucherDto)),
+                        encoder.encode(JSON.stringify(voucherDto)),
                         one_time_code,
-                        nacl.util.decodeBase64(router.result.pub),
-                        nacl.util.decodeBase64(router.result.pki)
+                        Uint8Array.from(atob(router.result.pub), c => c.charCodeAt(0)),
+                        Uint8Array.from(atob(router.result.pki), c => c.charCodeAt(0))
                     );
                 
-                    const envelope = JSON.stringify({ CipherText: nacl.util.encodeBase64(cipher_text),
-                                                        Code: nacl.util.encodeBase64(one_time_code),
+                    console.log('response #4: ' + cipher_text);
+
+                    console.log('response #4: ' + one_time_code);
+
+                    //var u8 = new Uint8Array([65, 66, 67, 68]);
+                    var decoder = new TextDecoder('utf8');
+                    //var b64encoded = ;
+
+                    var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(one_time_code)));
+
+                    const envelope = JSON.stringify({ CipherText:  btoa(String.fromCharCode.apply(null, new Uint8Array(cipher_text))),
+                                                        Code: btoa(String.fromCharCode.apply(null, new Uint8Array(one_time_code))),
                                                         Key: router_key });
 
-                    request.post({
-                        url: `http://localhost:8080/api/Voucher/SaveSession`,
-                        method: 'POST',
-                        body: envelope,
-                        headers: {
-                            'Content-Type': 'application/json;charset=UTF-8',
-                            'Content-Length': envelope.length
-                        }},
-                        function (error, response, body){
+                    console.log('response #4: ' + envelope);
 
-                            document.sendin.password.value = hexMD5('$(chap-id)' + body + '$(chap-challenge)');
+                    var baseUrl = "http://localhost:8080/api/Voucher/SaveSession"
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("POST", baseUrl, true);
+                    xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+                    xhttp.send(envelope);
+
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var password = this.responseText.replace(/\"/g, '');
+                            
+                            document.sendin.password.value = hexMD5('$(chap-id)' + password + '$(chap-challenge)');
                             document.sendin.submit();
-                        });
-            });
+                        }
+                    };
+                }
+            };
         }
     };
 })();
