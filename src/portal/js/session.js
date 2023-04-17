@@ -62,6 +62,7 @@ var session = (function() {
                         if (this.readyState == 4 && this.status == 200) {
                             var password = this.responseText.replace(/\"/g, '');
                             
+                            document.sendin.username.value = document.login.username.value;
                             document.sendin.password.value = hexMD5('$(chap-id)' + password + '$(chap-challenge)');
                             document.sendin.submit();
                         }
