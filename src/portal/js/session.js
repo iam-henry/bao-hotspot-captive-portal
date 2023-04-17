@@ -7,8 +7,6 @@ var session = (function() {
     return {
         start: function () {
 
-            document.sendin.username.value = document.login.username.value;
-
             var voucher = document.login.username.value;
             var routerIp = '$(server-address)';
             var clientMac = '$(mac)';

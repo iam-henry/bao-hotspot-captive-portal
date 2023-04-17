@@ -1,10 +1,9 @@
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
  * Digest Algorithm, as defined in RFC 1321.
- * Version 1.1 Copyright (C) DATAstudi Information 2006 - 2012.
- * Other contributors: thankstoomedia, DATAstudi Information, eBright community.
- * Code also contributed by DATAstudi Information.
- * See http://datastudi.wordpress.com for details.
+ * Version 1.1 Copyright (C) Paul Johnston 1999 - 2002.
+ * Code also contributed by Greg Holt
+ * See http://pajhome.org.uk/site/legal.html for details.
  */
 
 /*

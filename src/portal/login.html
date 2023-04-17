@@ -25,32 +25,22 @@
 </head>
 
 $(if chap-id)
-<form name="sendin" action="$(link-login-only)" method="post">
-  <input type="hidden" name="username" />
-  <input type="hidden" name="password" />
-  <input type="hidden" name="dst" value="$(link-orig)" />
-  <input type="hidden" name="popup" value="true" />
-</form>
+    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
 
+    <script>
 
+        function doLogin() {
+            document.sendin.username.value = document.login.username.value;
+            session.start();
+            return false;
+        }
 
-<script type="text/javascript">
-
-    //***********************************************************************************************
-    //
-    // doLogin
-    //
-    //************************************************************************************************
-    function doLogin() {
-
-      //
-      // iniitiate hotspot session
-      //
-      session.start();
-      return false;
-    }
-
-</script>
+    </script>
 $(endif)
 
 <body id="page1" onload="new ElementMaxHeight();">
@@ -72,11 +62,10 @@ $(endif)
 
   <div class="col-md-5 login-form" style="margin:0 100px">
     <h1 class="page-header">Login To bao broadband</h1>
-    <form name="login" class="login-form-b"  action="$(link-login-only)" method="post" onSubmit="return doLogin()">
+    <form name="login" class="login-form-b"  action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
       $(if error != 'yes')<br /><div class="alert alert-warning"><blink>$(error)</blink></div>
       $(elif error == 'no')<br /><div style="color: yellow; font-size: 10px"></div>
       $(endif)
-      
       
       <input type="hidden" name="dst" value="$(link-orig)" />
       <input type="hidden" name="popup" value="true" />
