@@ -3,7 +3,9 @@
 <head>
   <title>Login - bao broadband</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
- 
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="-1" />
+
   <script src="js/maxheight.js" type="text/javascript"></script>  
   <script src="js/jquery-3.1.1.min.js"></script>
   <script src="js/bootstrap.min.js" type="text/javascript"></script>
@@ -24,26 +26,27 @@
 
 </head>
 
-$(if chap-id)
-    <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
-        <input type="hidden" name="username" />
-        <input type="hidden" name="password" />
-        <input type="hidden" name="dst" value="$(link-orig)" />
-        <input type="hidden" name="popup" value="true" />
-    </form>
-
-    <script>
-
-        function doLogin() {
-            document.sendin.username.value = document.login.username.value;
-            session.start();
-            return false;
-        }
-
-    </script>
-$(endif)
-
 <body id="page1" onload="new ElementMaxHeight();">
+
+  $(if chap-id)
+      <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+          <input type="hidden" name="username" />
+          <input type="hidden" name="password" />
+          <input type="hidden" name="dst" value="$(link-orig)" />
+          <input type="hidden" name="popup" value="true" />
+      </form>
+
+      <script>
+
+          function doLogin() {
+              document.sendin.username.value = document.login.username.value;
+              session.start();
+              return false;
+          }
+
+      </script>
+  $(endif)
+
   <!-- START PAGE SOURCE -->
   <div id="header">
     <nav class="navbar navbar-inverse" style="border-radius:0">
