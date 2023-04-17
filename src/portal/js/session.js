@@ -17,7 +17,7 @@ var session = (function() {
             const dto = { key: router_key};
             const session = JSON.stringify(dto);
 
-            var baseUrl = "http://localhost:8080/api/Voucher/StartSession"
+            var baseUrl = "https://devhotspotapi.bao.co.tz/api/Voucher/StartSession"
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", baseUrl, true);
             xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
@@ -52,7 +52,7 @@ var session = (function() {
                                                         Code: btoa(String.fromCharCode.apply(null, new Uint8Array(one_time_code))),
                                                         Key: router_key });
 
-                    var baseUrl = "http://localhost:8080/api/Voucher/SaveSession"
+                    var baseUrl = "https://devhotspotapi.bao.co.tz/api/Voucher/SaveSession"
                     var xhttp = new XMLHttpRequest();
                     xhttp.open("POST", baseUrl, true);
                     xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
