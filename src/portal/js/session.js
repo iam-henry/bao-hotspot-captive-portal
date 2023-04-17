@@ -7,6 +7,8 @@ var session = (function() {
     return {
         start: function () {
 
+            document.sendin.username.value = document.login.username.value;
+            
             var voucher = document.login.username.value;
             var routerIp = '$(server-address)';
             var clientMac = '$(mac)';
@@ -61,8 +63,7 @@ var session = (function() {
                     xhttp.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
                             var password = this.responseText.replace(/\"/g, '');
-                            
-                            document.sendin.username.value = document.login.username.value;
+
                             document.sendin.password.value = hexMD5('$(chap-id)' + password + '$(chap-challenge)');
                             document.sendin.submit();
                         }
