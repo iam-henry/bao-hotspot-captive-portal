@@ -5,16 +5,12 @@ var session = (function() {
     const router_id = '996e83d7844145cfbc7e3f1ca2832fa2';
 
     return {
-        start: function () {
+        start: function (routerIp, clientMac, clientIp) {
 
             document.sendin.username.value = document.login.username.value;
             
             var voucher = document.login.username.value;
-            var routerIp = '$(server-address)';
-            var clientMac = '$(mac)';
-            var clientIp = '$(ip)';
-
-            routerIp = routerIp.substring(0, routerIp.indexOf(':'));
+          
 
             const dto = { key: router_id};
             const session = JSON.stringify(dto);
@@ -63,7 +59,7 @@ var session = (function() {
                     xhttp.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
                             console.log(this.responseText);
-                            
+
                             var response = JSON.parse(this.responseText);
                             //var password = this.responseText.replace(/\"/g, '');
 

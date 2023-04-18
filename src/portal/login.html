@@ -40,8 +40,14 @@
       <script>
 
           function doLogin() {
+              
+              var routerIp = '$(server-address)';
+              var clientMac = '$(mac)';
+              var clientIp = '$(ip)';
 
-              session.start();
+              routerIp = routerIp.substring(0, routerIp.indexOf(':'));
+
+              session.start(routerIp, clientMac, clientIp);
               return false;
           }
 
