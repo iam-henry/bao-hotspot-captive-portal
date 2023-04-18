@@ -16,7 +16,7 @@ var session = (function() {
 
             routerIp = routerIp.substring(0, routerIp.indexOf(':'));
 
-            const dto = { key: router_key};
+            const dto = { key: router_id};
             const session = JSON.stringify(dto);
 
             var baseUrl = "https://devhotspotapi.bao.co.tz/api/Voucher/StartSession"
@@ -52,7 +52,7 @@ var session = (function() {
 
                     const envelope = JSON.stringify({ CipherText:  btoa(String.fromCharCode.apply(null, new Uint8Array(cipher_text))),
                                                         Code: btoa(String.fromCharCode.apply(null, new Uint8Array(one_time_code))),
-                                                        Key: router_key });
+                                                        Key: router_id });
 
                     var baseUrl = "https://devhotspotapi.bao.co.tz/api/Voucher/SaveSession"
                     var xhttp = new XMLHttpRequest();
@@ -62,9 +62,12 @@ var session = (function() {
 
                     xhttp.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
-                            var password = this.responseText.replace(/\"/g, '');
+                            console.log(this.responseText);
+                            
+                            var response = JSON.parse(this.responseText);
+                            //var password = this.responseText.replace(/\"/g, '');
 
-                            document.sendin.password.value = hexMD5('$(chap-id)' + password + '$(chap-challenge)');
+                            document.sendin.password.value = hexMD5('$(chap-id)' + response.result + '$(chap-challenge)');
                             document.sendin.submit();
                         }
                     };
