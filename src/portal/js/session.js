@@ -10,8 +10,6 @@ var session = (function() {
             document.sendin.username.value = document.login.username.value;
             
             var voucher = document.login.username.value;
-          
-
             const dto = { key: router_id};
             const session = JSON.stringify(dto);
 
@@ -30,7 +28,8 @@ var session = (function() {
 
                     var voucherDto = { 
                         login: voucher,
-                        routerId: router_id,
+                        routerId : router_id,
+                        routerKey: router_key,
                         routerIP: routerIp,
                         clientMac: clientMac,
                         clientIP: clientIp
