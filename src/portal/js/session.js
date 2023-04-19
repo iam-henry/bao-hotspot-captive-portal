@@ -61,7 +61,7 @@ var session = (function() {
                         xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
-                                const status = xhrSession.status;
+                                const status = xhr.status;
 
                                 if (status === 0 || (status >= 200 && status < 400)) {
                                     console.log(this.responseText);
