@@ -13,61 +13,74 @@ var session = (function() {
             const dto = { key: router_id};
             const session = JSON.stringify(dto);
 
-            var baseUrl = "https://devhotspotapi.bao.co.tz/api/Voucher/StartSession"
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", baseUrl, true);
-            xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-            xhttp.send(session);
+            const xhrSession = new XMLHttpRequest();
+            const sessionUrl = "https://devhotspotapi.bao.co.tz/api/Voucher/StartSession";
+            const method = "POST";
 
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
+            xhrSession.open(method, sessionUrl, true);
+            xhrSession.setRequestHeader("content-type", "application/json;charset=UTF-8");
+            xhrSession.onreadystatechange = function() {
+
+                if (xhrSession.readyState === XMLHttpRequest.DONE) {
+                    const status = xhrSession.status;
+
+                    if (status === 0 || (status >= 200 && status < 400)) {
+                        
+                        console.log(JSON.stringify('response: ' + this.responseText));
+                        const one_time_code = nacl.randomBytes(24);
+                        const router = JSON.parse(this.responseText);
+
+                        var voucherDto = { 
+                            login: voucher,
+                            routerId : router_id,
+                            routerKey: router_key,
+                            routerIP: routerIp,
+                            clientMac: clientMac,
+                            clientIP: clientIp
+                        };
                     
-                    console.log(JSON.stringify('response: ' + this.responseText));
-                    const one_time_code = nacl.randomBytes(24);
-                    const router = JSON.parse(this.responseText);
+                        const encoder = new TextEncoder();
 
-                    var voucherDto = { 
-                        login: voucher,
-                        routerId : router_id,
-                        routerKey: router_key,
-                        routerIP: routerIp,
-                        clientMac: clientMac,
-                        clientIP: clientIp
-                    };
-                
-                    const encoder = new TextEncoder();
+                        // Get the cipher text
+                        const cipher_text = nacl.box(
+                            encoder.encode(JSON.stringify(voucherDto)),
+                            one_time_code,
+                            Uint8Array.from(atob(router.result.pub), c => c.charCodeAt(0)),
+                            Uint8Array.from(atob(router.result.pki), c => c.charCodeAt(0))
+                        );
 
-                    // Get the cipher text
-                    const cipher_text = nacl.box(
-                        encoder.encode(JSON.stringify(voucherDto)),
-                        one_time_code,
-                        Uint8Array.from(atob(router.result.pub), c => c.charCodeAt(0)),
-                        Uint8Array.from(atob(router.result.pki), c => c.charCodeAt(0))
-                    );
+                        const envelope = JSON.stringify({ CipherText:  btoa(String.fromCharCode.apply(null, new Uint8Array(cipher_text))),
+                                                            Code: btoa(String.fromCharCode.apply(null, new Uint8Array(one_time_code))),
+                                                            Key: router_id });
 
-                    const envelope = JSON.stringify({ CipherText:  btoa(String.fromCharCode.apply(null, new Uint8Array(cipher_text))),
-                                                        Code: btoa(String.fromCharCode.apply(null, new Uint8Array(one_time_code))),
-                                                        Key: router_id });
+                        const xhr = new XMLHttpRequest();
+                        const url = "https://devhotspotapi.bao.co.tz/api/Voucher/SaveSession";
+                        const method = "POST";
 
-                    var baseUrl = "https://devhotspotapi.bao.co.tz/api/Voucher/SaveSession"
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.open("POST", baseUrl, true);
-                    xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-                    xhttp.send(envelope);
+                        xhr.open(method, url, true);
+                        xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                const status = xhrSession.status;
 
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            console.log(this.responseText);
+                                if (status === 0 || (status >= 200 && status < 400)) {
+                                    console.log(this.responseText);
 
-                            var response = JSON.parse(this.responseText);
-                            //var password = this.responseText.replace(/\"/g, '');
+                                    var response = JSON.parse(this.responseText);
+                                    //var password = this.responseText.replace(/\"/g, '');
 
-                            document.sendin.password.value = hexMD5('$(chap-id)' + response.result + '$(chap-challenge)');
-                            document.sendin.submit();
-                        }
-                    };
+                                    document.sendin.password.value = hexMD5('$(chap-id)' + response.result + '$(chap-challenge)');
+                                    document.sendin.submit();
+                                }
+                            }
+                        };
+
+                        xhr.send(envelope);
+                    }
                 }
             };
+
+            xhrSession.send(session);
         }
     };
 })();
