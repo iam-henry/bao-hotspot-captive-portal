@@ -1,12 +1,11 @@
 
 var session = (function() {
-    
-    const router_key = 'b4446feaf944492dab9ebe69efe41a92';
-    const router_id = '996e83d7844145cfbc7e3f1ca2832fa2';
 
     return {
         start: function (routerIp, clientMac, clientIp) {
-
+            const router_key = 'b4446feaf944492dab9ebe69efe41a92';
+            const router_id = '996e83d7844145cfbc7e3f1ca2832fa2';
+            
             document.sendin.username.value = document.login.username.value;
             
             var voucher = document.login.username.value;
