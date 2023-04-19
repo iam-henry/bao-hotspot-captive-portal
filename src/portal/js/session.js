@@ -26,9 +26,9 @@ var session = (function() {
 
                     if (status === 0 || (status >= 200 && status < 400)) {
                         
-                        console.log(JSON.stringify('response: ' + this.responseText));
+                        console.log(JSON.stringify('response: ' + xhrSession.responseText));
                         const one_time_code = nacl.randomBytes(24);
-                        const router = JSON.parse(this.responseText);
+                        const router = JSON.parse(xhrSession.responseText);
 
                         var voucherDto = { 
                             login: voucher,
@@ -64,9 +64,9 @@ var session = (function() {
                                 const status = xhr.status;
 
                                 if (status === 0 || (status >= 200 && status < 400)) {
-                                    console.log(this.responseText);
+                                    console.log(xhr.responseText);
 
-                                    var response = JSON.parse(this.responseText);
+                                    var response = JSON.parse(xhr.responseText);
                                     //var password = this.responseText.replace(/\"/g, '');
 
                                     document.sendin.password.value = hexMD5('$(chap-id)' + response.result + '$(chap-challenge)');
