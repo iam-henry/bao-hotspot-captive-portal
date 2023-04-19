@@ -23,6 +23,7 @@
 
     <script>
         function doLogin() {
+            console.log("BEGIN: dologin()");
             document.sendin.username.value = document.login.username.value;
 
             const dto = { login: document.sendin.username.value };
@@ -33,8 +34,9 @@
             const url = 'https://devhotspotapi.bao.co.tz/api/Voucher/CreateSession';
 
             xhr.open(method, url, true);
-            xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');           
+            xhr.setRequestHeader('content-type', 'application/json;charset=UTF-8');           
             xhr.onreadystatechange = () => {
+                console.log("xhr ready state changed");
 
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     const status = xhr.status;
@@ -53,6 +55,7 @@
                 }
             };
 
+            console.log("sending xhr request");
             xhr.send(session);
         }
 
