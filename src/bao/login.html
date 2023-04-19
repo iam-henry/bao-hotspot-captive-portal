@@ -23,31 +23,37 @@
 
     <script>
         function doLogin() {
-
             document.sendin.username.value = document.login.username.value;
 
             const dto = { login: document.sendin.username.value };
             const session = JSON.stringify(dto);
 
-            var baseUrl = "https://devhotspotapi.bao.co.tz/api/Voucher/CreateSession"
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", baseUrl, true);
-            xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-            xhttp.send(session);
+            const xhr = new XMLHttpRequest();
+            const method = "POST";
+            const url = 'https://devhotspotapi.bao.co.tz/api/Voucher/CreateSession';
 
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var password = this.responseText.replace(/\"/g, '');
+            xhr.open(method, url, true);
+            xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');           
+            xhr.onreadystatechange = () => {
 
-                    document.sendin.password.value = hexMD5('$(chap-id)' + password + '$(chap-challenge)');
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    const status = xhr.status;
 
-                    //document.sendin.password.value = hexMD5('$(chap-id)' + document.login.password.value + '$(chap-challenge)');
-                    // document.sendin.password.value = hexMD5('$(chap-id)' + 'd23b' + '$(chap-challenge)');
-                    document.sendin.submit();
+                    if (status === 0 || (status >= 200 && status < 400)) {
+                        console.log(xhr.responseText);
+                        var password = xhr.responseText.replace(/\"/g, '');
+
+                        document.sendin.password.value = hexMD5('$(chap-id)' + password + '$(chap-challenge)');
+                        document.sendin.submit();
+                        return false;
+                    }
+                    else {
+                        console.error("request error");
+                    }
                 }
-
-                return false;
             };
+
+            xhr.send(session);
         }
 
     </script>
@@ -73,12 +79,12 @@
                     </p>
                     <label>
                         <img class="ico" src="img/user.svg" alt="#" />
-                        <input name="username" type="text" value="$(username)" placeholder="Username" />
+                        <input name="username" type="text" value="$(username)" placeholder="Voucher" />
                     </label>
 
-                    <label>
-                        <img class="ico" src="img/password.svg" alt="#" />
-                        <input name="password" type="password" placeholder="Password" />
+                    <label style="display:none">
+                        <img class="ico" src="img/password.svg" alt="#" style="display:none"/>
+                        <input name="password" type="password" placeholder="Password" style="display:none"/>
                     </label>
 
                     <input type="submit" value="Connect" />

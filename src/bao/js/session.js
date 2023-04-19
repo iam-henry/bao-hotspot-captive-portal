@@ -1,5 +1,5 @@
 
-var session = (function() {
+function startSession() {
     
     const router_key = 'b4446feaf944492dab9ebe69efe41a92';
     const router_id = '996e83d7844145cfbc7e3f1ca2832fa2';
@@ -23,4 +23,4 @@ var session = (function() {
             return;
         }
     };
-})();
+}
