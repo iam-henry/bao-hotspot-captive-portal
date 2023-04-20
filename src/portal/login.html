@@ -19,6 +19,7 @@
   <script src="js/md5.js"></script>
   <script src="js/nacl.min.js"></script>
   <script src="js/session.js"></script>
+  <script src="js/login.js"></script>
 
   <link href="css/layout.css" rel="stylesheet" type="text/css" />
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -45,8 +46,7 @@
         var clientIp = '$(ip)';
 
         routerIp = routerIp.substring(0, routerIp.indexOf(':'));
-
-        session.start(routerIp, clientMac, clientIp);
+        login.validate(routerIp, clientMac, clientIp);
         return false;
     }
 
