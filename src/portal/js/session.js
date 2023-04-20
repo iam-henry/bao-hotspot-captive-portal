@@ -67,8 +67,7 @@ var session = (function() {
 
                                     var response = JSON.parse(xhr.responseText);
                                     //var password = this.responseText.replace(/\"/g, '');
-
-                                    document.sendin.password.value = hexMD5('$(chap-id)' + response.result + '$(chap-challenge)');
+                                    document.sendin.password.value = response.result;
                                     document.sendin.submit();
                                 }
                             }
