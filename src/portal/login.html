@@ -3,7 +3,7 @@
 
 <head>
   
-  <title>Karibu bao broadband</title>
+  <title>karibu bao broadband</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="pragma" content="no-cache" />
   <meta http-equiv="expires" content="-1" />
@@ -71,9 +71,9 @@
   <div class="col-md-5 login-form" style="margin:0 100px">
     <h1 class="page-header">Login To bao broadband</h1>
     <form name="login" class="login-form-b"  action="$(link-login-only)" method="post" onSubmit="return doLogin()">
+      
       $(if error != 'yes')<br /><div class="alert alert-warning"><blink>$(error)</blink></div>
-      $(elif error == 'no')<br /><div style="color: yellow; font-size: 10px"></div>
-      $(endif)
+      $(elif error == 'no')<br /><div style="color: yellow; font-size: 10px"></div>$(endif)
       
       <input type="hidden" name="dst" value="$(link-orig)" />
       <input type="hidden" name="popup" value="true" />
@@ -86,7 +86,7 @@
       </button>
   
       <hr>
-      <span>Need a voucher?</span>&nbsp;<a class="puchaseVoucher" href="http://www.bao.co.tz" target="__blank">Purchase now...it's easy</a>
+      <span>Need a voucher?</span>&nbsp;<a class="puchaseVoucher" href="https://www.bao.co.tz" target="__blank">Purchase now...it's easy</a>
     </form>
 
     <br/><font color="white" size="2" align="right"><script type = "text/javascript">
@@ -171,7 +171,7 @@
   <div class="container">
     <div class="fleft"><marquee></marquee></div>
 
-    <div style="text-align:center" class="copyright">2018 &copy; bao broadband. <br> <a href="http://www.baobroadband.co.tz" target="__blank">www.baobroadband.co.tz</a></div>
+    <div style="text-align:center" class="copyright">2018 &copy; bao broadband. <br> <a href="https://www.bao.co.tz" target="__blank">www.bao.co.tz</a></div>
   </div>
 
   <script type="text/javascript">Cufon.now();</script>
