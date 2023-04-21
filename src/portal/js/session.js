@@ -8,7 +8,6 @@ var session = (function() {
             
             document.sendin.username.value = document.login.username.value;
             
-            var voucher = document.login.username.value;
             const dto = { key: router_id};
             const session = JSON.stringify(dto);
 
@@ -30,7 +29,7 @@ var session = (function() {
                         const router = JSON.parse(xhrSession.responseText);
 
                         var voucherDto = { 
-                            login: voucher,
+                            login: document.login.username.value,
                             routerId : router_id,
                             routerKey: router_key,
                             routerIP: routerIp,
@@ -65,8 +64,7 @@ var session = (function() {
                                 if (status === 0 || (status >= 200 && status < 400)) {
                                     console.log(xhr.responseText);
 
-                                    var response = JSON.parse(xhr.responseText);
-                                    //var password = this.responseText.replace(/\"/g, '');
+                                    const response = JSON.parse(xhr.responseText);
                                     document.sendin.password.value = response.result;
                                     document.sendin.submit();
                                 }
