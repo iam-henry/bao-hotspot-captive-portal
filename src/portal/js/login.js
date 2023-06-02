@@ -44,7 +44,7 @@ const login = (function() {
                 'Content-Type': 'application/json'
               };
 
-            axios.post(url, body, { headers: headers }, { retry: 3, retryDelay: 3000 })
+            axios.post(url, body, { headers: headers, retry: 3, retryDelay: 3000 })
                 .then(function (response) {
                     // handle success
                     console.log(response);
