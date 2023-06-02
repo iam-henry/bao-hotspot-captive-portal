@@ -18,7 +18,7 @@ const login = (function() {
                 config.retry -= 1;
                 const delayRetryRequest = new Promise((resolve) => {
                   setTimeout(() => {
-                    console.log("retry the request", config.url);
+                    console.log("** retrying request: url:" + config.url + ", attempts:" + config.retry);
                     resolve();
                   }, config.retryDelay || 1000);
                 });
