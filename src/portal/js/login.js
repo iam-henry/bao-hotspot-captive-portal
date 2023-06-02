@@ -15,12 +15,15 @@ const login = (function() {
                 if (!(message.includes("timeout") || message.includes("Network Error"))) {
                   return Promise.reject(err);
                 }
+
                 config.retry -= 1;
+                config.retries += 1;
+                const backOffDelay = config.retries ? ( (1/2) * (Math.pow(2, config.retries) - 1) ) * 2000 : 1000;
                 const delayRetryRequest = new Promise((resolve) => {
                   setTimeout(() => {
-                    console.log("** retrying request - url:" + config.url + ", attempts:" + config.retry);
+                    console.log(`** retrying request - url: ${config.url}, attempts: ${config.retries}, delay: ${backOffDelay}`);
                     resolve();
-                  }, config.retryDelay || 1000);
+                  }, backOffDelay || 1000);
                 });
                 return delayRetryRequest.then(() => axios(config));
             });
@@ -44,7 +47,7 @@ const login = (function() {
                 'Content-Type': 'application/json'
               };
 
-            axios.post(url, body, { headers: headers, retry: 3, retryDelay: 3000 })
+            axios.post(url, body, { headers: headers, retry: 3, retryDelay: 3000, retries: 0 })
                 .then(function (response) {
                     // handle success
                     console.log(response);
