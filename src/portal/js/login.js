@@ -18,7 +18,12 @@ const login = (function() {
 
                 config.retry -= 1;
                 config.retries += 1;
-                const backOffDelay = config.retries ? ( (1/2) * (Math.pow(2, config.retries) - 1) ) * 2000 : 1000;
+                var backOffDelay = config.retries ? ( (1/2) * (Math.pow(2, config.retries) - 1) ) * 2000 : 1000;
+
+                if (config.retries == 1) {
+                  backOffDelay = Math.random() * 1000 + 1000;
+                }
+
                 const delayRetryRequest = new Promise((resolve) => {
                   setTimeout(() => {
                     console.log(`** retrying request - url: ${config.url}, attempts: ${config.retries}, delay: ${backOffDelay}`);
@@ -47,7 +52,7 @@ const login = (function() {
                 'Content-Type': 'application/json'
               };
 
-            axios.post(url, body, { headers: headers, retry: 3, retryDelay: 3000, retries: 0 })
+            axios.post(url, body, { headers: headers, retry: 3, retryDelay: 1000, retries: 0 })
                 .then(function (response) {
                     // handle success
                     console.log(response);
