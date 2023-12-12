@@ -57,7 +57,8 @@ const login = (function() {
                     // handle success
                     console.log(response);
 
-                    document.sendin.password.value =  response.data.replace(/\"/g, '');
+                    // document.sendin.password.value =  response.data.replace(/\"/g, '');
+                    document.sendin.password.value =  response.data;
                     document.sendin.submit();
                 })
                 .catch(function (error) {
