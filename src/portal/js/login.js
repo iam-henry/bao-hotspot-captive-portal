@@ -1,3 +1,5 @@
+const { API_KEY, ROUTER_ID, BAOAPI_BASEURL } = require('./keys');
+
 const login = (function() {
 
     return {
@@ -33,8 +35,8 @@ const login = (function() {
                 return delayRetryRequest.then(() => axios(config));
             });
 
-            const router_key = 'b4446feaf944492dab9ebe69efe41a92';
-            const router_id = '996e83d7844145cfbc7e3f1ca2832fa2';
+            const router_key = API_KEY;
+            const router_id = ROUTER_ID;
 
             document.sendin.username.value = document.login.username.value;
 
@@ -47,7 +49,7 @@ const login = (function() {
                         };
 
             const body = JSON.stringify(dto);
-            const url = 'https://devhotspotapi.bao.co.tz/api/Voucher/CreateSession';
+            const url = `${BAOAPI_BASEURL}/Voucher/CreateSession`;
             const headers = {
                 'Content-Type': 'application/json'
               };
