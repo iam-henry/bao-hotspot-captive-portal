@@ -20,8 +20,8 @@
   <script src="js/nacl.min.js"></script>
   <script src="js/session.js"></script>
   <script src="js/login.js"></script>
-  <script src="js/axios.min.js"></script>
   <script src="js/preflight.js"></script>
+  <script src="js/axios.min.js"></script>
 
   <link href="css/layout.css" rel="stylesheet" type="text/css" />
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -73,18 +73,16 @@
               //  "totalUploads": 35.71
               // }
               //
+                const result = response.result;
 
-                if (response.status == 'expired') {
-                    //
-                    // login.error('Your voucher has expired. Please purchase a new voucher.');
-                    // 
-                    // document.getElementById("voucherServicePlan").value = response.planDisplayName;
-                    // document.getElementById("voucherActivatedOn").value = response.activatedOn;
-                    //
-                    document.getElementById("voucherServicePlan").innerHTML = response.planDisplayName;
-                    document.getElementById("voucherActivatedOn").innerHTML = response.activatedOn.toLocaleDateString();
+                if (result.status == 'expired') {
+                    const activatedOn = result.activatedOn.split('T')[0].split('-');
+                    const localActivatedOn = `${activatedOn[2]}-${activatedOn[1]}-${activatedOn[0]}`;
+
+                    document.getElementById("voucherServicePlan").innerHTML = result.planDisplayName;
+                    document.getElementById("voucherActivatedOn").innerHTML = localActivatedOn;
                     document.getElementById("divExpiredVoucher").style.display = "block";
-                    return;
+                    return false;
                 }
 
                 //
@@ -127,8 +125,8 @@
       <br />
       <div class="alert alert-warning" style="display: none;" id="divExpiredVoucher">
          
-          The <span id="voucherServicePlan"></span> voucher that was activated on <span id="voucherActivatedOn"></span> has now expired.
-          Please contact your local dealer or visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> 
+          The <span id="voucherServicePlan" style="color: green; font-weight: 600" ></span> plan voucher that was activated on <span id="voucherActivatedOn" style="color: green; font-weight: 600" ></span> 
+          has now expired. Please contact your local dealer or visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> 
           to obtain a fresh voucher.
         
       </div>
