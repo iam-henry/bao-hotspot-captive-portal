@@ -21,6 +21,7 @@
   <script src="js/session.js"></script>
   <script src="js/login.js"></script>
   <script src="js/axios.min.js"></script>
+  <script src="js/preflight.js"></script>
 
   <link href="css/layout.css" rel="stylesheet" type="text/css" />
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -42,12 +43,59 @@
 
     function doLogin() {
         
+        document.getElementById("divExpiredVoucher").style.display = "none";
+        document.getElementById("divInvalidVoucher").style.display = "none";
+        document.getElementById("voucherServicePlan").innerHTML = '';
+        document.getElementById("voucherActivatedOn").innerHTML = '';
+
         var routerIp = '$(server-address)';
         var clientMac = '$(mac)';
         var clientIp = '$(ip)';
 
         routerIp = routerIp.substring(0, routerIp.indexOf(':'));
-        login.validate(routerIp, clientMac, clientIp);
+
+        //
+        // first run preflight checks
+        //
+        preflight.status(routerIp, clientMac, clientIp, (succeeded, response) => {
+            if (true == succeeded) {
+
+              //
+              // "result": {
+              //  "login": "372981",
+              //  "status": "expired",
+              //  "activatedOn": "2024-01-15T09:57:23Z",
+              //  "planName": "Bao1Unlimited",
+              //  "planDisplayName": "Bao 1",
+              //  "uploadSpeed": 2048,
+              //  "downloadSpeed": 5120,
+              //  "totalDownloads": 558.89,
+              //  "totalUploads": 35.71
+              // }
+              //
+
+                if (response.status == 'expired') {
+                    //
+                    // login.error('Your voucher has expired. Please purchase a new voucher.');
+                    // 
+                    // document.getElementById("voucherServicePlan").value = response.planDisplayName;
+                    // document.getElementById("voucherActivatedOn").value = response.activatedOn;
+                    //
+                    document.getElementById("voucherServicePlan").innerHTML = response.planDisplayName;
+                    document.getElementById("voucherActivatedOn").innerHTML = response.activatedOn.toLocaleDateString();
+                    document.getElementById("divExpiredVoucher").style.display = "block";
+                    return;
+                }
+
+                //
+                // preflight succeeded
+                //
+                login.validate(routerIp, clientMac, clientIp);
+            } else {
+              document.getElementById("divInvalidVoucher").style.display = "block";
+            }
+        });
+        
         return false;
     }
 
@@ -72,10 +120,26 @@
   <div class="col-md-5 login-form" style="margin:0 100px">
     <h1 class="page-header">Login To bao broadband</h1>
     <form name="login" class="login-form-b"  action="$(link-login-only)" method="post" onSubmit="return doLogin()">
-      
+
       $(if error != 'yes')<br /><div class="alert alert-warning"><blink>$(error)</blink></div>
       $(elif error == 'no')<br /><div style="color: yellow; font-size: 10px"></div>$(endif)
       
+      <br />
+      <div class="alert alert-warning" style="display: none;" id="divExpiredVoucher">
+         
+          The <span id="voucherServicePlan"></span> voucher that was activated on <span id="voucherActivatedOn"></span> has now expired.
+          Please contact your local dealer or visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> 
+          to obtain a fresh voucher.
+        
+      </div>
+
+      <div class="alert alert-warning" style="display: none;" id="divInvalidVoucher">
+        
+          Either the voucher you entered is invalid or has expired. For a new voucher,
+          please visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> or renter.
+        
+      </div>
+
       <input type="hidden" name="dst" value="$(link-orig)" />
       <input type="hidden" name="popup" value="true" />
       <label class="grey" for="signup">Voucher</label><br/>
