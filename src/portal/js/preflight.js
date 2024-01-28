@@ -1,4 +1,3 @@
-const { API_KEY, ROUTER_ID, BAOAPI_BASEURL } = require('./keys');
 
 const preflight = (function() {
 
