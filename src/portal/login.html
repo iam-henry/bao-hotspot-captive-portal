@@ -18,6 +18,7 @@
   <script src="js/aes.js"></script>
   <script src="js/md5.js"></script>
   <script src="js/nacl.min.js"></script>
+  <script src="js/keys.js"></script>
   <script src="js/session.js"></script>
   <script src="js/login.js"></script>
   <script src="js/preflight.js"></script>
@@ -27,7 +28,7 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="css/style.css" rel="stylesheet" type="text/css" />
   <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="icons/font/bootstrap-icons.min.css">
+  <link href="assets/icons/font/bootstrap-icons.min.css" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -62,17 +63,7 @@
             if (true == succeeded) {
 
               //
-              // "result": {
-              //  "login": "372981",
-              //  "status": "expired",
-              //  "activatedOn": "2024-01-15T09:57:23Z",
-              //  "planName": "Bao1Unlimited",
-              //  "planDisplayName": "Bao 1",
-              //  "uploadSpeed": 2048,
-              //  "downloadSpeed": 5120,
-              //  "totalDownloads": 558.89,
-              //  "totalUploads": 35.71
-              // }
+              // api payload
               //
                 const result = response.result;
 
@@ -83,6 +74,7 @@
                     document.getElementById("voucherServicePlan").innerHTML = result.planDisplayName;
                     document.getElementById("voucherActivatedOn").innerHTML = localActivatedOn;
                     document.getElementById("divExpiredVoucher").style.display = "block";
+                    
                     return false;
                 }
 
@@ -126,8 +118,7 @@
       <br />
       <div class="alert alert-warning" style="display: none;" id="divExpiredVoucher">
         
-          <i class="bi-alarm"></i>
-
+          <img src="assets/icons/bootstrap.svg" alt="Bootstrap" width="32" height="32">
           The <span id="voucherServicePlan" style="color: green; font-weight: 600"></span> plan voucher that was activated on 
           <span id="voucherActivatedOn" style="color: green; font-weight: 600"></span> 
           has now <span style="color: red; font-weight: 600">expired</span>. Please contact your local dealer or visit 
@@ -136,15 +127,21 @@
         
       </div>
 
-      <div class="alert alert-warning" style="display: none;" id="divInvalidVoucher">
-        
-          <i class="bi-alarm"></i>
 
-          Either the voucher you entered is invalid or has <span style="color: red; font-weight: 600">expired</span>. 
-          For a new voucher, please visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> or renter.
+      <div class="alert alert-warning" style="display: none; height:65px; margin:0px; padding:0 5 10 10px " id="divInvalidVoucher">
         
+          <div style="float:left; width:32px; height:42px; padding:0px; margin:0px;" >
+            <img src="assets/icons/exclamation-octagon-fill.svg" alt="Exclamation" width="28" height="28" style="margin-top:5px; padding:0px" >
+          </div>
+
+          <div style="float:left; width:530px; height:72px; padding:0 0 0 10px; margin:0px">
+            Either the voucher you entered is invalid or has <span style="color: red; font-weight: 600">expired</span>. 
+            For a new voucher, please visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> or re-enter.
+          </div>
+
       </div>
 
+      <br />
       <input type="hidden" name="dst" value="$(link-orig)" />
       <input type="hidden" name="popup" value="true" />
       <label class="grey" for="signup">Voucher</label><br/>
