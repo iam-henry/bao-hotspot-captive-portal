@@ -81,7 +81,14 @@
                 //
                 // preflight succeeded
                 //
-                login.validate(routerIp, clientMac, clientIp);
+                login.validate(routerIp, clientMac, clientIp, (succeeded) => {
+                    if (false == succeeded) {
+                      //
+                      // login failed
+                      //
+                      document.getElementById("divInvalidVoucher").style.display = "block";
+                    }
+                });
             } else {
               document.getElementById("divInvalidVoucher").style.display = "block";
             }

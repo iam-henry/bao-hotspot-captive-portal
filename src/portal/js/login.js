@@ -2,7 +2,7 @@
 const login = (function() {
 
     return {
-        validate: function (routerIp, clientMac, clientIp) {
+        validate: function (routerIp, clientMac, clientIp, callback) {
 
             axios.interceptors.response.use(undefined, (err) => {
                 const { config, message } = err;
@@ -65,6 +65,7 @@ const login = (function() {
                 .catch(function (error) {
                     // handle error
                     console.log(error);
+                    callback(false);
                 });
         }
     };
