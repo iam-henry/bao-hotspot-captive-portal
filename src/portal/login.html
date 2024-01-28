@@ -27,6 +27,7 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="css/style.css" rel="stylesheet" type="text/css" />
   <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="icons/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -109,7 +110,6 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="login.html">Hotspot Login</a></li>
           <li><a href="status.html">Status</a></li>
-
         </ul>
       </div>
     </nav>
@@ -119,15 +119,18 @@
     <h1 class="page-header">Login To bao broadband</h1>
     <form name="login" class="login-form-b"  action="$(link-login-only)" method="post" onSubmit="return doLogin()">
 
-      $(if error != 'yes')<br /><div class="alert alert-warning"><blink>$(error)</blink></div>
-      $(elif error == 'no')<br /><div style="color: yellow; font-size: 10px"></div>$(endif)
+      <br />
+      $(if error != 'yes')<div class="alert alert-warning"><blink>$(error)</blink></div>
+      $(elif error == 'no')<div></div>$(endif)
       
       <br />
       <div class="alert alert-warning" style="display: none;" id="divExpiredVoucher">
-         
+        
+          <i class="bi-alarm"></i>
+
           The <span id="voucherServicePlan" style="color: green; font-weight: 600"></span> plan voucher that was activated on 
           <span id="voucherActivatedOn" style="color: green; font-weight: 600"></span> 
-          has now <span style="color: rgb(128, 0, 4); font-weight: 600">expired</span>. Please contact your local dealer or visit 
+          has now <span style="color: red; font-weight: 600">expired</span>. Please contact your local dealer or visit 
           <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> 
           to obtain a fresh voucher.
         
@@ -135,7 +138,9 @@
 
       <div class="alert alert-warning" style="display: none;" id="divInvalidVoucher">
         
-          Either the voucher you entered is invalid or has <span style="color: rgb(128, 0, 4); font-weight: 600">expired</span>. 
+          <i class="bi-alarm"></i>
+
+          Either the voucher you entered is invalid or has <span style="color: red; font-weight: 600">expired</span>. 
           For a new voucher, please visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> or renter.
         
       </div>
