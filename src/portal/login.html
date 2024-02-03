@@ -43,10 +43,36 @@
 
   <script>
 
+    function isNumeric(event) {
+
+      const charCode = event.charCode;
+
+      if (charCode >= 48 && charCode <= 57)
+        return true;
+
+      return false;
+    }
+
+    function voucherEntered(value) {
+	
+	if (value.length < 6){
+         document.getElementById("divExpiredVoucher").style.display = "none";
+         document.getElementById("divInvalidVoucher").style.display = "none";
+         document.getElementById("divLoginSpinner").style.display = "none";
+         document.getElementById("voucherServicePlan").innerHTML = '';
+         document.getElementById("voucherActivatedOn").innerHTML = '';
+
+	 return;
+        }
+
+	doLogin();
+    }
+
     function doLogin() {
         
         document.getElementById("divExpiredVoucher").style.display = "none";
         document.getElementById("divInvalidVoucher").style.display = "none";
+        document.getElementById("divLoginSpinner").style.display = "none";
         document.getElementById("voucherServicePlan").innerHTML = '';
         document.getElementById("voucherActivatedOn").innerHTML = '';
 
@@ -55,6 +81,7 @@
         var clientIp = '$(ip)';
 
         routerIp = routerIp.substring(0, routerIp.indexOf(':'));
+        document.getElementById("divLoginSpinner").style.display = "block";
 
         //
         // first run preflight checks
@@ -73,8 +100,9 @@
 
                     document.getElementById("voucherServicePlan").innerHTML = result.planDisplayName;
                     document.getElementById("voucherActivatedOn").innerHTML = localActivatedOn;
-                    document.getElementById("divExpiredVoucher").style.display = "block";
-                    
+                    document.getElementById("divLoginSpinner").style.display = "none";
+                    $("#divExpiredVoucher").slideDown(600);
+                      
                     return false;
                 }
 
@@ -82,15 +110,19 @@
                 // preflight succeeded
                 //
                 login.validate(routerIp, clientMac, clientIp, (succeeded) => {
+
+                    document.getElementById("divLoginSpinner").style.display = "none";
+
                     if (false == succeeded) {
                       //
                       // login failed
                       //
-                      document.getElementById("divInvalidVoucher").style.display = "block";
+                      $("#divInvalidVoucher").slideDown(600);
                     }
                 });
             } else {
-              document.getElementById("divInvalidVoucher").style.display = "block";
+              document.getElementById("divLoginSpinner").style.display = "none";
+              $("#divInvalidVoucher").slideDown(600);
             }
         });
         
@@ -129,7 +161,7 @@
           <img src="assets/icons/exclamation-octagon-fill.svg" alt="Exclamation" width="28" height="28" style="margin-top:5px; padding:0px" >
         </div>
 
-        <div style="float:left; width:530px; height:72px; padding:0 0 0 10px; margin:0px">
+        <div style="float:left; width:500px; height:72px; padding:0 0 0 10px; margin:0px">
           The <span id="voucherServicePlan" style="color: green; font-weight: 600"></span> plan voucher that was activated on 
           <span id="voucherActivatedOn" style="color: green; font-weight: 600"></span> 
           has now <span style="color: red; font-weight: 600">expired</span>. Please contact your local dealer or visit 
@@ -140,13 +172,13 @@
       </div>
 
 
-      <div class="alert alert-warning" style="display: none; height:65px; margin:0px; padding:0 5 10 10px" id="divInvalidVoucher">
+      <div class="alert alert-warning" style="display:none; height:65px; margin:0px; padding:0 5 10 10px;" id="divInvalidVoucher">
         
-          <div style="float:left; width:32px; height:42px; padding:0px; margin:0px;" >
+          <div style="float:left; width:32px; height:42px; padding:0px; margin:0px;">
             <img src="assets/icons/exclamation-octagon-fill.svg" alt="Exclamation" width="28" height="28" style="margin-top:5px; padding:0px" >
           </div>
 
-          <div style="float:left; width:530px; height:72px; padding:0 0 0 10px; margin:0px">
+          <div style="float:left; width:500px; height:72px; padding:0 0 0 10px; margin:0px;">
             Either the voucher you entered is invalid or has <span style="color: red; font-weight: 600">expired</span>. 
             For a new voucher, please visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> or re-enter.
           </div>
@@ -156,8 +188,29 @@
       <br />
       <input type="hidden" name="dst" value="$(link-orig)" />
       <input type="hidden" name="popup" value="true" />
-      <label class="grey" for="signup">Voucher</label><br/>
-      <input class="form-control" type="text" name="username" placeholder="Enter Voucher Here" size="37" /><br><br>
+
+      <div>
+         
+        <label class="grey" for="signup">Voucher</label><br/>
+
+        <div style="float:left; width:200px; background-color:red;">
+           <input class="form-control" 
+                  type="text" 
+                  name="username" 
+                  maxlength="6"
+                  onkeypress="return isNumeric(event)"
+                  onkeyup="voucherEntered(value)"
+                  placeholder="Enter Voucher Here" 
+                  size="37" />
+        </div>
+
+        <div style="float:left; width:50px; height:20px; margin-left:10px; display:none" id="divLoginSpinner" >
+         <img src="assets/icons/iphone-spinner.gif" alt="spinner" width="28" height="28" style="margin-top:5px; padding:0px" >
+        </div>
+        
+      </div>
+      
+      <br><br>
       <label></label><br>
 
       <button type="submit" name="submit" value="Login" class="btn btn-green btn-block">
