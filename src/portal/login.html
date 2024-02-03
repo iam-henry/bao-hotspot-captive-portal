@@ -55,17 +55,17 @@
 
     function voucherEntered(value) {
 	
-	if (value.length < 6){
-         document.getElementById("divExpiredVoucher").style.display = "none";
-         document.getElementById("divInvalidVoucher").style.display = "none";
-         document.getElementById("divLoginSpinner").style.display = "none";
-         document.getElementById("voucherServicePlan").innerHTML = '';
-         document.getElementById("voucherActivatedOn").innerHTML = '';
+        if (value.length < 6){
+          document.getElementById("divExpiredVoucher").style.display = "none";
+          document.getElementById("divInvalidVoucher").style.display = "none";
+          document.getElementById("divLoginSpinner").style.display = "none";
+          document.getElementById("voucherServicePlan").innerHTML = '';
+          document.getElementById("voucherActivatedOn").innerHTML = '';
 
-	 return;
+          return;
         }
 
-	doLogin();
+	      doLogin();
     }
 
     function doLogin() {
@@ -218,6 +218,7 @@
       <div class="row">
 
         <div class="col-md-6">
+        <div style="float:left; width:200px;">
            <input class="form-control" 
                   type="text" 
                   name="username" 
