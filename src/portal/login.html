@@ -155,10 +155,20 @@
       $(elif error == 'no')<div></div>$(endif)
       
       <br />
+      
+      <div class="row">
+
+      <div class="col-md-12">
+
       <div class="alert alert-warning" style="display: none; height:65px; margin:0px; padding:0 5 10 10px" id="divExpiredVoucher">
         
         <div style="float:left; width:32px; height:42px; padding:0px; margin:0px;" >
-          <img src="assets/icons/exclamation-octagon-fill.svg" alt="Exclamation" width="28" height="28" style="margin-top:5px; padding:0px" >
+          <img src="assets/icons/exclamation-octagon-fill.svg" 
+               alt="Exclamation" 
+               width="28" 
+               height="28" 
+               style="margin-top:5px; padding:0px;" 
+               class="filter-red" />
         </div>
 
         <div style="float:left; width:500px; height:72px; padding:0 0 0 10px; margin:0px">
@@ -175,7 +185,12 @@
       <div class="alert alert-warning" style="display:none; height:65px; margin:0px; padding:0 5 10 10px;" id="divInvalidVoucher">
         
           <div style="float:left; width:32px; height:42px; padding:0px; margin:0px;">
-            <img src="assets/icons/exclamation-octagon-fill.svg" alt="Exclamation" width="28" height="28" style="margin-top:5px; padding:0px" >
+            <img src="assets/icons/exclamation-octagon-fill.svg" 
+                 alt="Exclamation" 
+                 width="28" 
+                 height="28" 
+                 style="margin-top:5px; padding:0px;" 
+                 class="filter-red" />
           </div>
 
           <div style="float:left; width:500px; height:72px; padding:0 0 0 10px; margin:0px;">
@@ -185,15 +200,24 @@
 
       </div>
 
-      <br />
+      </div>
+
+      </div>
+
       <input type="hidden" name="dst" value="$(link-orig)" />
       <input type="hidden" name="popup" value="true" />
 
-      <div>
-         
-        <label class="grey" for="signup">Voucher</label><br/>
+      <div class="row">
+  
+        <div class="col-md-12"> 
+            <label class="grey" for="signup">Voucher</label>
+        </div>
 
-        <div style="float:left; width:200px; background-color:red;">
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-6">
            <input class="form-control" 
                   type="text" 
                   name="username" 
@@ -204,20 +228,26 @@
                   size="37" />
         </div>
 
-        <div style="float:left; width:50px; height:20px; margin-left:10px; display:none" id="divLoginSpinner" >
-         <img src="assets/icons/iphone-spinner.gif" alt="spinner" width="28" height="28" style="margin-top:5px; padding:0px" >
+        <div class="col-md-6">
+          <div style="float:left; width:50px; height:20px; margin-left:10px; display:none" id="divLoginSpinner" >
+            <img src="assets/icons/iphone-spinner.gif" alt="spinner" width="28" height="28" style="margin-top:5px; padding:0px" >
+          </div>
         </div>
-        
+
       </div>
       
-      <br><br>
-      <label></label><br>
+      <br />
 
-      <button type="submit" name="submit" value="Login" class="btn btn-green btn-block">
-        <i class="fa fa-sign-in"></i>&nbsp; Login
-      </button>
+      <div class="row">
+        <div class="col-md-12">
+          <button type="submit" name="submit" value="Login" class="btn btn-green btn-block">
+            <i class="fa fa-sign-in"></i>&nbsp; Login
+          </button>
   
-      <hr>
+          <hr>
+        </div>
+      </div>
+
       <span>Need a voucher?</span>&nbsp;<a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">Purchase now...it's easy</a>
     </form>
 
