@@ -151,27 +151,29 @@
     <form name="login" class="login-form-b"  action="$(link-login-only)" method="post" onSubmit="return doLogin()">
 
       <br />
-      $(if error != 'yes')<div class="alert alert-warning"><blink>$(error)</blink></div>
-      $(elif error == 'no')<div></div>$(endif)
-      
+      $(if error != 'yes')
+        <div class="alert alert-warning"><blink>$(error)</blink></div>
+      $(elif error == 'no')
+        <div></div>
+      $(endif)
       <br />
       
       <div class="row">
 
-          <div class="col-md-12" id="divExpiredVoucher">
+          <div class="col-md-12" id="divExpiredVoucher" style="display: none;">
 
-              <div class="alert alert-warning" style="display: none; height:65px; margin:0px; padding:0 5 10 10px" >
+              <div class="row alert alert-warning">
                 
-                <div style="float:left; width:32px; height:42px; padding:0px; margin:0px;" >
+                <div class="col-md-1">
                   <img src="assets/icons/exclamation-octagon-fill.svg" 
                       alt="Exclamation" 
                       width="28" 
                       height="28" 
-                      style="margin-top:5px; padding:0px;" 
+                      style="margin-top:5px; padding:0px;"
                       class="filter-red" />
                 </div>
 
-                <div style="float:left; width:500px; height:72px; padding:0 0 0 10px; margin:0px">
+                <div class="col-md-11">
                   The <span id="voucherServicePlan" style="color: green; font-weight: 600"></span> plan voucher that was activated on 
                   <span id="voucherActivatedOn" style="color: green; font-weight: 600"></span> 
                   has now <span style="color: red; font-weight: 600">expired</span>. Please contact your local dealer or visit 
@@ -186,11 +188,11 @@
 
       <div class="row">
 
-          <div class="col-md-12" id="divInvalidVoucher" style="display:none; height:65px; margin:0px; padding:0 5 10 10px;">
+          <div class="col-md-12" id="divInvalidVoucher" style="display:none;">
 
               <div class="row alert alert-warning">
                 
-                  <div class="col-md-3">
+                  <div class="col-md-1">
                     <img src="assets/icons/exclamation-octagon-fill.svg" 
                         alt="Exclamation" 
                         width="28" 
@@ -199,7 +201,7 @@
                         class="filter-red" />
                   </div>
 
-                  <div class="col-md-9">
+                  <div class="col-md-11">
                     Either the voucher you entered is invalid or has <span style="color: red; font-weight: 600">expired</span>. 
                     For a new voucher, please visit <a class="puchaseVoucher" href="https://bao.co.tz" target="__blank">bao.co.tz</a> or re-enter.
                   </div>
