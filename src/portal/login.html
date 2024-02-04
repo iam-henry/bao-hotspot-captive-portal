@@ -145,10 +145,13 @@
       </div>
     </nav>
   </div>
-
+  
   <div class="col-md-5 login-form" style="margin:0 100px">
     <h1 class="page-header">Login To bao broadband</h1>
     <form name="login" class="login-form-b"  action="$(link-login-only)" method="post" onSubmit="return doLogin()">
+      
+      <input type="hidden" name="dst" value="$(link-orig)" />
+      <input type="hidden" name="popup" value="true" />
 
       <br />
       $(if error != 'yes')
@@ -158,9 +161,9 @@
       $(endif)
       <br />
       
-      <div class="row">
+      <div class="row"  id="divExpiredVoucher" style="display: none;">
 
-          <div class="col-md-12" id="divExpiredVoucher" style="display: none;">
+          <div class="col-md-12">
 
               <div class="row alert alert-warning">
                 
@@ -186,9 +189,9 @@
           </div>
       </div>
 
-      <div class="row">
+      <div class="row" id="divInvalidVoucher" style="display:none;">
 
-          <div class="col-md-12" id="divInvalidVoucher" style="display:none;">
+          <div class="col-md-12">
 
               <div class="row alert alert-warning">
                 
@@ -210,9 +213,6 @@
 
           </div>
       </div>
-
-      <input type="hidden" name="dst" value="$(link-orig)" />
-      <input type="hidden" name="popup" value="true" />
 
       <div class="row">
   
